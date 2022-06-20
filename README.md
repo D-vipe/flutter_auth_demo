@@ -1,2 +1,3 @@
 # flutter_auth_demo
-Simple demo auth app
+Login: +7920-000-15-15
+Passsword: Password13

@@ -14,7 +14,7 @@ class InitScreen extends StatelessWidget {
     return BlocBuilder<InitCubit, InitState>(
       builder: (context, state) {
         if (state is LoggedIn) {
-          return BaseScreen();
+          return const BaseScreen();
         } else {
           return const LoginScreen();
         }

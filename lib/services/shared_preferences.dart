@@ -2,10 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 enum PreferenceKey {
   phoneNumber,
-  firstName,
-  secondName,
   isLoggedIn,
-  userId,
 }
 
 class SharedStorageService {
@@ -30,5 +27,9 @@ class SharedStorageService {
 
   static bool getBool(PreferenceKey key, [bool defValue = false]) {
     return _prefs.getBool(key.toString()) ?? defValue;
+  }
+
+  static Future<bool> clear() async {
+    return await _prefs.clear();
   }
 }

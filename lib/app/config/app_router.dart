@@ -1,5 +1,10 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+// Project imports:
 import 'package:flutter_demo_auth/app/constants/routes_const.dart';
 import 'package:flutter_demo_auth/screens/auth/ui/error_login_pop.dart';
 import 'package:flutter_demo_auth/screens/init/cubit/init_cubit.dart';

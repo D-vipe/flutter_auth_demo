@@ -1,5 +1,8 @@
-import 'package:bloc/bloc.dart';
+// Package imports:
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+// Project imports:
 import 'package:flutter_demo_auth/services/shared_preferences.dart';
 
 part 'init_state.dart';

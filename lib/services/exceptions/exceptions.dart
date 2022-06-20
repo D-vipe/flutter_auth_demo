@@ -1,3 +1,4 @@
+// Project imports:
 import 'package:flutter_demo_auth/services/exceptions/common_error_model.dart';
 
 class LoginException implements Exception {

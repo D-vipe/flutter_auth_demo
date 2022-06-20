@@ -1,5 +1,11 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
+
+// Project imports:
 import 'package:flutter_demo_auth/app/constants/app_colors.dart';
 import 'package:flutter_demo_auth/app/constants/app_dictionary.dart';
 import 'package:flutter_demo_auth/app/constants/app_icons.dart';
@@ -10,7 +16,6 @@ import 'package:flutter_demo_auth/app/uikit/loader.dart';
 import 'package:flutter_demo_auth/screens/auth/bloc/login_bloc.dart';
 import 'package:flutter_demo_auth/screens/auth/login_repository.dart';
 import 'package:flutter_demo_auth/screens/auth/ui/components/login_page_text_field.dart';
-import 'package:formz/formz.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -170,7 +175,21 @@ class _LoginViewState extends State<LoginView> {
                                             ),
                                           ),
                                           state.status.isSubmissionFailure
-                                              ? _getSubmissionError()
+                                              ? Padding(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      vertical: 16.0),
+                                                  child: Text(
+                                                    AppDictionary
+                                                        .incorrectPasswordOrPhoneNumber,
+                                                    textAlign: TextAlign.center,
+                                                    style: AppTextStyle
+                                                        .comforta16W400
+                                                        .apply(
+                                                            color: AppColors
+                                                                .errorRed),
+                                                  ),
+                                                )
                                               : const Flexible(
                                                   flex: 2,
                                                   fit: FlexFit.tight,
@@ -233,7 +252,7 @@ class _LoginViewState extends State<LoginView> {
   }
 
   void _buttonOnPressed() {
-    print('button is pressed');
+    FocusManager.instance.primaryFocus?.unfocus();
     context.read<LoginBloc>().add(
           LoginPasswordChanged(
             passwordController.text,
@@ -252,17 +271,6 @@ class _LoginViewState extends State<LoginView> {
             password: passwordController.text,
           ),
         );
-  }
-
-  Widget _getSubmissionError() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: Text(
-        AppDictionary.incorrectPasswordOrPhoneNumber,
-        textAlign: TextAlign.center,
-        style: AppTextStyle.comforta16W400.apply(color: AppColors.errorRed),
-      ),
-    );
   }
 
   void _phoneIsValidate() {

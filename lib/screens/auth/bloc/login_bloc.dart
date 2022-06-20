@@ -1,11 +1,13 @@
+// Package imports:
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
+
+// Project imports:
 import 'package:flutter_demo_auth/app/constants/errors_const.dart';
 import 'package:flutter_demo_auth/screens/auth/login_repository.dart';
 import 'package:flutter_demo_auth/screens/auth/models/login_model.dart';
 import 'package:flutter_demo_auth/services/exceptions/exceptions.dart';
-import 'package:formz/formz.dart';
-
 import '../models/models.dart';
 
 part 'login_event.dart';

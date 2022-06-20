@@ -1,9 +1,14 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
+
+// Package imports:
+import 'package:flutter_svg/flutter_svg.dart';
+
+// Project imports:
 import 'package:flutter_demo_auth/app/constants/app_colors.dart';
 import 'package:flutter_demo_auth/app/constants/app_icons.dart';
 import 'package:flutter_demo_auth/app/theme/text_styles.dart';
 import 'package:flutter_demo_auth/services/text_formatters/phone_formatter.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginPageTextField extends StatelessWidget {
   const LoginPageTextField({

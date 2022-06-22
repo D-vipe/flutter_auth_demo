@@ -48,13 +48,12 @@ class ErrorLogin extends StatelessWidget {
                   ),
                   const SizedBox(height: 15.0),
                   DefaultButton(
-                    padding: EdgeInsets.zero,
                     backgroundColor: AppColors.blue,
                     withBorder: true,
                     borderRadius: BorderRadius.circular(25.0),
                     body: Text(
                       AppDictionary.goBack,
-                      style: AppTextStyle.comforta16W400
+                      style: AppTextStyle.comforta14W600
                           .apply(color: AppColors.white),
                     ),
                     onPressed: () {

@@ -50,7 +50,6 @@ class BaseScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 15.0),
                   DefaultButton(
-                    padding: EdgeInsets.zero,
                     backgroundColor: AppColors.blue,
                     withBorder: true,
                     borderRadius: BorderRadius.circular(25.0),

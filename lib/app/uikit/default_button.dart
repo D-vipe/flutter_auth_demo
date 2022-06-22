@@ -13,7 +13,6 @@ class DefaultButton extends StatelessWidget {
   final Function()? onPressed;
   final BorderRadiusGeometry? borderRadius;
   final bool withBorder;
-  final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? innerPadding;
 
   const DefaultButton({
@@ -25,17 +24,14 @@ class DefaultButton extends StatelessWidget {
     this.borderRadius,
     this.withBorder = false,
     this.body,
-    this.padding,
     this.innerPadding,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      // padding: padding ?? EdgeInsets.zero,
       onPressed: onPressed,
       child: Container(
-        padding: padding ?? EdgeInsets.zero,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           color: backgroundColor,

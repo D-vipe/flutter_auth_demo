@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_demo_auth/screens/auth/ui/components/create_account_btn.dart';
 import 'package:formz/formz.dart';
 
 // Project imports:
@@ -14,7 +15,7 @@ import 'package:flutter_demo_auth/app/theme/text_styles.dart';
 import 'package:flutter_demo_auth/app/uikit/default_button.dart';
 import 'package:flutter_demo_auth/app/uikit/loader.dart';
 import 'package:flutter_demo_auth/screens/auth/bloc/login_bloc.dart';
-import 'package:flutter_demo_auth/screens/auth/login_repository.dart';
+import 'package:flutter_demo_auth/screens/auth/repository/login_repository.dart';
 import 'package:flutter_demo_auth/screens/auth/ui/components/login_page_text_field.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -124,6 +125,11 @@ class _LoginViewState extends State<LoginView> {
                               height: width / 3,
                               color: AppColors.markBlue,
                             ),
+                            Text(
+                              AppDictionary.loginTitle.toUpperCase(),
+                              style: AppTextStyle.comforta18W700
+                                  .apply(color: AppColors.markBlue),
+                            ),
                             const Flexible(
                               flex: 4,
                               fit: FlexFit.tight,
@@ -203,7 +209,6 @@ class _LoginViewState extends State<LoginView> {
                                           SizedBox(
                                             width: width / 2,
                                             child: DefaultButton(
-                                              padding: EdgeInsets.zero,
                                               backgroundColor: phoneIsValid &&
                                                       passwordIsValid
                                                   ? AppColors.blue
@@ -212,13 +217,19 @@ class _LoginViewState extends State<LoginView> {
                                               withBorder: true,
                                               borderRadius:
                                                   BorderRadius.circular(32.0),
-                                              body: Text(
-                                                AppDictionary.signIn,
-                                                style: AppTextStyle
-                                                    .comforta18W700
-                                                    .apply(
-                                                        color: AppColors.white),
-                                              ),
+                                              body: state.status
+                                                      .isSubmissionInProgress
+                                                  ? const Loader(
+                                                      size: 20,
+                                                    )
+                                                  : Text(
+                                                      AppDictionary.signIn,
+                                                      style: AppTextStyle
+                                                          .comforta14W600
+                                                          .apply(
+                                                              color: AppColors
+                                                                  .white),
+                                                    ),
                                               onPressed: phoneIsValid &&
                                                       passwordIsValid
                                                   ? _buttonOnPressed
@@ -226,14 +237,25 @@ class _LoginViewState extends State<LoginView> {
                                             ),
                                           ),
                                           const Flexible(
-                                            flex: 2,
+                                            flex: 4,
                                             fit: FlexFit.tight,
                                             child: SizedBox(height: 30.0),
                                           ),
+                                          Container(
+                                            height: 1.0,
+                                            width: width,
+                                            color:
+                                                AppColors.white.withOpacity(.1),
+                                          ),
+                                          const Flexible(
+                                            flex: 4,
+                                            fit: FlexFit.tight,
+                                            child: SizedBox(height: 30.0),
+                                          ),
+                                          CreateAccountButton(width: width),
+                                          const SizedBox(height: 30.0),
                                         ],
                                       ),
-                                      if (state.status.isSubmissionInProgress)
-                                        const _Loader(),
                                     ],
                                   ),
                                 );
@@ -316,30 +338,5 @@ class _LoginViewState extends State<LoginView> {
     context
         .read<LoginBloc>()
         .add(LoginPhoneNumberChanged(phoneNumberController.text));
-  }
-}
-
-class _Loader extends StatelessWidget {
-  const _Loader({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      // color: AppColors.backGround.withOpacity(.95),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Loader(),
-          const SizedBox(height: 16.0),
-          Text(
-            AppDictionary.wait,
-            style: AppTextStyle.comforta16W400.apply(color: AppColors.white),
-          )
-        ],
-      ),
-    );
   }
 }

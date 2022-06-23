@@ -38,19 +38,21 @@ class BaseScreen extends StatelessWidget {
                     child: SizedBox(height: 30.0),
                   ),
                   Text(
-                    'Поздравляем!',
+                    AppDictionary.congrats,
                     style: AppTextStyle.comforta18W700
                         .apply(color: AppColors.white),
                   ),
                   const SizedBox(height: 5.0),
-                  Text(
-                    'А теперь вы можете',
-                    style: AppTextStyle.comforta14W400
-                        .apply(color: AppColors.white),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    child: Text(
+                      AppDictionary.logInSuccess,
+                      style: AppTextStyle.comforta14W400
+                          .apply(color: AppColors.white),
+                    ),
                   ),
                   const SizedBox(height: 15.0),
                   DefaultButton(
-                    padding: EdgeInsets.zero,
                     backgroundColor: AppColors.blue,
                     withBorder: true,
                     borderRadius: BorderRadius.circular(25.0),

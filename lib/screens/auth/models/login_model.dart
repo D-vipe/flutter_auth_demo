@@ -1,5 +1,13 @@
-class Login {
+// Package imports:
+import 'package:hive/hive.dart';
+
+part 'login_model.g.dart';
+
+@HiveType(typeId: 1)
+class Login extends HiveObject {
+  @HiveField(0)
   final String phone;
+  @HiveField(1)
   final String password;
 
   Login({

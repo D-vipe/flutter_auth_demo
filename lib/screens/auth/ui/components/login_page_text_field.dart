@@ -44,53 +44,49 @@ class LoginPageTextField extends StatelessWidget {
     return Container(
       constraints: const BoxConstraints(maxWidth: 500.0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: width / 20),
-            child: Row(
-              children: [
-                SvgPicture.asset(
-                  iconName,
-                  width: width / 18,
-                  color: isCorrect ? AppColors.markBlue : AppColors.errorRed,
+          Row(
+            children: [
+              SvgPicture.asset(
+                iconName,
+                width: width / 18,
+                color: isCorrect ? AppColors.markBlue : AppColors.errorRed,
+              ),
+              Expanded(
+                child: CupertinoTextField(
+                  autocorrect: false,
+                  textCapitalization: TextCapitalization.none,
+                  obscureText: obscureText,
+                  decoration: const BoxDecoration(),
+                  keyboardType:
+                      isPhoneNumber ? TextInputType.number : TextInputType.text,
+                  padding: EdgeInsets.symmetric(horizontal: width / 20),
+                  cursorColor: AppColors.blue,
+                  style: AppTextStyle.comforta16W400.apply(
+                    color: isCorrect ? AppColors.white : AppColors.errorRed,
+                  ),
+                  placeholder: placeholder,
+                  placeholderStyle: AppTextStyle.comforta14W400.apply(
+                    color: AppColors.markBlue,
+                  ),
+                  inputFormatters:
+                      isPhoneNumber ? [phoneFormatter(controller.text)] : null,
+                  onChanged: onChanged,
+                  controller: controller,
                 ),
-                Expanded(
-                  child: CupertinoTextField(
-                    autocorrect: false,
-                    textCapitalization: TextCapitalization.none,
-                    obscureText: obscureText,
-                    decoration: const BoxDecoration(),
-                    keyboardType: isPhoneNumber
-                        ? TextInputType.number
-                        : TextInputType.text,
-                    padding: EdgeInsets.symmetric(horizontal: width / 20),
-                    cursorColor: AppColors.blue,
-                    style: AppTextStyle.comforta18W400.apply(
-                      color: isCorrect ? AppColors.white : AppColors.errorRed,
-                    ),
-                    placeholder: placeholder,
-                    placeholderStyle: AppTextStyle.comforta18W400.apply(
-                      color: AppColors.markBlue,
-                    ),
-                    inputFormatters: isPhoneNumber
-                        ? [phoneFormatter(controller.text)]
-                        : null,
-                    onChanged: onChanged,
-                    controller: controller,
+              ),
+              if (isPassword)
+                GestureDetector(
+                  onTap: obscureOnTap,
+                  child: SvgPicture.asset(
+                    AppIcons.showPasswordIcon,
+                    width: width / 18,
+                    color:
+                        obscureText ? AppColors.markBlue : AppColors.errorRed,
                   ),
                 ),
-                if (isPassword)
-                  GestureDetector(
-                    onTap: obscureOnTap,
-                    child: SvgPicture.asset(
-                      AppIcons.showPasswordIcon,
-                      width: width / 18,
-                      color:
-                          obscureText ? AppColors.markBlue : AppColors.errorRed,
-                    ),
-                  ),
-              ],
-            ),
+            ],
           ),
           Padding(
             padding: const EdgeInsets.only(top: 10.0),

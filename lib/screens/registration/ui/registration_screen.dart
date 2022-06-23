@@ -362,10 +362,11 @@ class _RegistrationViewState extends State<RegistrationView> {
                                                             color: AppColors
                                                                 .white),
                                                   ),
-                                            onPressed:
-                                                phoneIsValid && passwordIsValid
-                                                    ? _buttonOnPressed
-                                                    : null,
+                                            onPressed: phoneIsValid &&
+                                                    passwordIsValid &&
+                                                    passwordRepeatIsValid
+                                                ? _buttonOnPressed
+                                                : null,
                                           ),
                                         ),
                                         const Flexible(

@@ -1,8 +1,16 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
+
+// Project imports:
+import 'package:flutter_demo_auth/app/config/help_route_arguments.dart';
 import 'package:flutter_demo_auth/app/constants/app_colors.dart';
 import 'package:flutter_demo_auth/app/constants/app_dictionary.dart';
 import 'package:flutter_demo_auth/app/constants/app_icons.dart';
+import 'package:flutter_demo_auth/app/constants/errors_const.dart';
 import 'package:flutter_demo_auth/app/constants/routes_const.dart';
 import 'package:flutter_demo_auth/app/theme/text_styles.dart';
 import 'package:flutter_demo_auth/app/uikit/default_button.dart';
@@ -11,7 +19,6 @@ import 'package:flutter_demo_auth/screens/auth/ui/components/login_page_text_fie
 import 'package:flutter_demo_auth/screens/registration/bloc/registration_bloc.dart';
 import 'package:flutter_demo_auth/screens/registration/repository/registration_repository.dart';
 import 'package:flutter_demo_auth/screens/registration/ui/components/back_to_login.dart';
-import 'package:formz/formz.dart';
 
 class RegistrationScreen extends StatelessWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
@@ -24,9 +31,8 @@ class RegistrationScreen extends StatelessWidget {
       child: BlocListener<RegistrationBloc, RegistrationState>(
         listener: (context, state) {
           if (state.registerSuccess) {
-            Navigator.of(context).pushNamedAndRemoveUntil(
-              Routes.home,
-              (_) => false,
+            Navigator.of(context).pushNamed(
+              Routes.registrationSuccess,
             );
           }
         },
@@ -187,14 +193,19 @@ class _RegistrationViewState extends State<RegistrationView> {
     return BlocListener<RegistrationBloc, RegistrationState>(
       listener: (context, state) {
         if (state.status.isSubmissionFailure) {
-          phoneIsValid = false;
-          passwordIsValid = false;
-          passwordRepeatIsValid = false;
-          phoneDividerColor = AppColors.errorRed;
-          passwordDividerColor = AppColors.errorRed;
+          phoneIsValid =
+              state.errorMessage == ServerErrors.userExists ? false : true;
+          passwordIsValid = true;
+          passwordRepeatIsValid = true;
+          phoneDividerColor = state.errorMessage == ServerErrors.userExists
+              ? AppColors.errorRed
+              : AppColors.blue;
+          passwordDividerColor = AppColors.blue;
+          passwordRepeatDividerColor = AppColors.blue;
 
           // Запушим фейл-экран поверх текущего
-          Navigator.of(context).pushNamed(Routes.errorLogin);
+          Navigator.of(context).pushNamed(Routes.errorLogin,
+              arguments: HelpRouteArguments(errorMessage: state.errorMessage));
         }
       },
       child: Scaffold(
@@ -301,15 +312,13 @@ class _RegistrationViewState extends State<RegistrationView> {
                                                 !obscureTextRepeat,
                                           ),
                                         ),
-                                        // TODO work with errorStates
                                         state.status.isSubmissionFailure
                                             ? Padding(
                                                 padding:
                                                     const EdgeInsets.symmetric(
                                                         vertical: 16.0),
                                                 child: Text(
-                                                  AppDictionary
-                                                      .incorrectPasswordOrPhoneNumber,
+                                                  state.errorMessage,
                                                   textAlign: TextAlign.center,
                                                   style: AppTextStyle
                                                       .comforta16W400

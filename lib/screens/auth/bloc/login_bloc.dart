@@ -5,8 +5,8 @@ import 'package:formz/formz.dart';
 
 // Project imports:
 import 'package:flutter_demo_auth/app/constants/errors_const.dart';
-import 'package:flutter_demo_auth/screens/auth/repository/login_repository.dart';
 import 'package:flutter_demo_auth/screens/auth/models/login_model.dart';
+import 'package:flutter_demo_auth/screens/auth/repository/login_repository.dart';
 import 'package:flutter_demo_auth/services/exceptions/exceptions.dart';
 import '../models/models.dart';
 
@@ -73,8 +73,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           if (exception.error.error == ServerErrors.passwordError) {
             _onPasswordChanged(const LoginPasswordChanged(''), emit);
           }
+          emit(state.copyWith(
+              status: FormzStatus.submissionFailure,
+              errorMessage: exception.error.error));
+        } else {
+          emit(state.copyWith(
+              status: FormzStatus.submissionFailure,
+              errorMessage: ServerErrors.generalError));
         }
-        emit(state.copyWith(status: FormzStatus.submissionFailure));
       }
     }
   }

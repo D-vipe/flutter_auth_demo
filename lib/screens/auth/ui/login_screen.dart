@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_demo_auth/screens/auth/ui/components/create_account_btn.dart';
 import 'package:formz/formz.dart';
 
 // Project imports:
+import 'package:flutter_demo_auth/app/config/help_route_arguments.dart';
 import 'package:flutter_demo_auth/app/constants/app_colors.dart';
 import 'package:flutter_demo_auth/app/constants/app_dictionary.dart';
 import 'package:flutter_demo_auth/app/constants/app_icons.dart';
@@ -16,6 +16,7 @@ import 'package:flutter_demo_auth/app/uikit/default_button.dart';
 import 'package:flutter_demo_auth/app/uikit/loader.dart';
 import 'package:flutter_demo_auth/screens/auth/bloc/login_bloc.dart';
 import 'package:flutter_demo_auth/screens/auth/repository/login_repository.dart';
+import 'package:flutter_demo_auth/screens/auth/ui/components/create_account_btn.dart';
 import 'package:flutter_demo_auth/screens/auth/ui/components/login_page_text_field.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -92,7 +93,8 @@ class _LoginViewState extends State<LoginView> {
           passwordDividerColor = AppColors.errorRed;
 
           // Запушим фейл-экран поверх текущего
-          Navigator.of(context).pushNamed(Routes.errorLogin);
+          Navigator.of(context).pushNamed(Routes.errorLogin,
+              arguments: HelpRouteArguments(errorMessage: state.errorMessage));
         }
       },
       child: Scaffold(

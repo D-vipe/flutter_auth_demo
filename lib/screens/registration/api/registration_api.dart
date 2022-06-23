@@ -1,9 +1,11 @@
-import 'dart:convert';
+// Dart imports:
 import 'dart:io';
 
-import 'package:flutter_demo_auth/app/constants/app_dictionary.dart';
+// Project imports:
+import 'package:flutter_demo_auth/app/constants/errors_const.dart';
 import 'package:flutter_demo_auth/screens/auth/models/login_model.dart';
 import 'package:flutter_demo_auth/services/encryption.dart';
+import 'package:flutter_demo_auth/services/hive_service.dart';
 
 class RegistrationApi {
   final File file = File('./assets/user.json');
@@ -11,40 +13,31 @@ class RegistrationApi {
   Future<Map<String, dynamic>> registration({required Login regData}) async {
     Map<String, dynamic> answer = {'status': false, 'error_message': ''};
 
-    // First get data from file
-    final String fileData = await _readFile();
-    List<Map<String, String>> usersList = [];
+    // Получим данные из Hive
+    List<Login> userList = HiveService.getUsers();
 
-    if (fileData == '') {
-      usersList.add({
-        'phone': regData.phone,
-        'password': EncryptHelper.generateMd5(regData.password)
-      });
+    if (userList.isEmpty) {
+      HiveService.addUser(Login(
+          phone: regData.phone,
+          password: EncryptHelper.generateMd5(regData.password)));
       answer['status'] = true;
     } else {
-      usersList = jsonDecode(fileData);
-
-      for (var el in usersList) {
-        if (el['phone'] == regData.phone) {
-          answer['error_message'] = AppDictionary.errorUserExists;
-        } else {
-          usersList.add({
-            'phone': regData.phone,
-            'password': EncryptHelper.generateMd5(regData.password)
-          });
-          answer['status'] = true;
+      for (var i = 0; i < userList.length; i++) {
+        // Пользователь существует, вернем статус ошибки
+        if (userList[i].phone == regData.phone) {
+          answer['status'] = false;
+          answer['error_message'] = ServerErrors.userExists;
         }
+      }
+
+      if (answer['error_message'] == '') {
+        HiveService.addUser(Login(
+            phone: regData.phone,
+            password: EncryptHelper.generateMd5(regData.password)));
+        answer['status'] = true;
       }
     }
 
     return answer;
-  }
-
-  Future<String> _readFile() async {
-    return await file.readAsString();
-  }
-
-  Future<File> _writeFile({required String contents}) {
-    return file.writeAsString(contents);
   }
 }

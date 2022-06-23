@@ -17,8 +17,14 @@ class AppDictionary {
   static const String repeatPassword = 'Повторите пароль...';
   static const String repeatPassError = 'Пароли не совпадают';
   static const String successAppBarTitle = 'Успешная авторизация';
+  static const String successRegAppBarTitle = 'Успешная регистрация';
   static const String errorAppBarTitle = 'Произошла ошибка';
   static const String errorUserExists = 'Пользователь уже существует';
   static const String loginTitle = 'Авторизация';
   static const String regTitle = 'Регистрация';
+  static const String regError = 'Что-то пошло не так...';
+  static const String regSuccess =
+      'Вы успешно зарегистрировались, теперь можно';
+  static const String logInSuccess = 'Вы успешно авторизовались, теперь можно';
+  static const String congrats = 'Поздравляем!';
 }

@@ -1,9 +1,14 @@
+// Package imports:
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
+
+// Project imports:
+import 'package:flutter_demo_auth/app/constants/errors_const.dart';
 import 'package:flutter_demo_auth/screens/auth/models/login_model.dart';
 import 'package:flutter_demo_auth/screens/auth/models/models.dart';
 import 'package:flutter_demo_auth/screens/registration/repository/registration_repository.dart';
-import 'package:formz/formz.dart';
+import 'package:flutter_demo_auth/services/exceptions/exceptions.dart';
 
 part 'registration_event.dart';
 part 'registration_state.dart';
@@ -55,18 +60,30 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     if (state.status.isValidated) {
       emit(state.copyWith(status: FormzStatus.submissionInProgress));
 
+      var phone = event.phone
+          .replaceAll('(', '')
+          .replaceAll(')', '')
+          .replaceAll('-', '')
+          .replaceAll(' ', '');
       try {
-        Map<String, dynamic> answer = await repository.regUser(
-            regData: Login(phone: event.phone, password: event.password));
-
-        if (state.phoneNumber == const PhoneNumber.dirty('+7(901)753-10-93')) {
-          emit(state.copyWith(status: FormzStatus.submissionSuccess));
+        await repository
+            .regUser(regData: Login(phone: phone, password: event.password))
+            .then((value) =>
+                emit(state.copyWith(status: FormzStatus.submissionSuccess)));
+      } catch (exception) {
+        if (exception is LoginException) {
+          if (exception.error.error == ServerErrors.userExists) {
+            _onPasswordChanged(const PasswordChanged(''), emit);
+            _onRepeatPasswordChanged(const RepeatPasswordChanged(''), emit);
+            emit(state.copyWith(
+                status: FormzStatus.submissionFailure,
+                errorMessage: exception.error.error));
+          }
         } else {
-          _onPhoneNumberChanged(const PhoneNumberChanged(''), emit);
-          emit(state.copyWith(status: FormzStatus.submissionFailure));
+          emit(state.copyWith(
+              status: FormzStatus.submissionFailure,
+              errorMessage: ServerErrors.generalError));
         }
-      } catch (_) {
-        emit(state.copyWith(status: FormzStatus.submissionFailure));
       }
     }
   }

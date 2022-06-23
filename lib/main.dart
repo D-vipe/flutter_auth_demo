@@ -8,11 +8,13 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 // Project imports:
 import 'package:flutter_demo_auth/app/config/app_router.dart';
 import 'package:flutter_demo_auth/app/theme/theme.dart';
+import 'package:flutter_demo_auth/services/hive_service.dart';
 import 'package:flutter_demo_auth/services/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedStorageService.init();
+  await HiveService.init();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(const MyApp());
 }

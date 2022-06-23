@@ -44,7 +44,3 @@ class RegisterSubmitted extends RegistrationEvent {
       required this.password,
       required this.passwordRepeat});
 }
-
-class RestoreSubmitted extends RegistrationEvent {
-  const RestoreSubmitted();
-}

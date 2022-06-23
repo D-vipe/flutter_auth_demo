@@ -188,8 +188,7 @@ class _LoginViewState extends State<LoginView> {
                                                           .symmetric(
                                                       vertical: 16.0),
                                                   child: Text(
-                                                    AppDictionary
-                                                        .incorrectPasswordOrPhoneNumber,
+                                                    state.errorMessage,
                                                     textAlign: TextAlign.center,
                                                     style: AppTextStyle
                                                         .comforta16W400
